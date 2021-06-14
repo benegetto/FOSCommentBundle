@@ -28,7 +28,7 @@ class CommentManagerTest extends TestCase
     protected $classMetadata;
     protected $dispatcher;
 
-    public function setUp()
+    protected function setUp(): void
     {
         if (!class_exists('Doctrine\\ORM\\EntityManager')) {
             $this->markTestSkipped('Doctrine ORM not installed');

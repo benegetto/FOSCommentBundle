@@ -23,7 +23,7 @@ class CommentExtensionTest extends TestCase
 {
     protected $extension;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->extension = new CommentExtension();
     }

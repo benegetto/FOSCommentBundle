@@ -30,7 +30,7 @@ class AclCommentManagerTest extends TestCase
     protected $depth;
     protected $parent;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->realManager = $this->getMockBuilder('FOS\CommentBundle\Model\CommentManagerInterface')->getMock();
         $this->commentSecurity = $this->getMockBuilder('FOS\CommentBundle\Acl\CommentAclInterface')->getMock();

@@ -1,17 +1,17 @@
 Step 3: Import FOSCommentBundle routing
 =======================================
-Import the bundle routing:
+Import the bundle routing (updated for symfony ^5.0 and FOSRestBundle ^3.0):
 
 ``` yaml
 fos_comment_api:
-    type: rest
+    type: annotation
     resource: "@FOSCommentBundle/Resources/config/routing.yml"
     prefix: /api
     defaults: { _format: html }
 ```
 **Note:**
 
-> The `type: rest` part is important.
+> The `type: rest` part modified in `type: annotation`. See [FOSRestBundle upgrade documentation](https://github.com/FriendsOfSymfony/FOSRestBundle/blob/3.x/UPGRADING-3.0.md)
 
 **Note:**
 

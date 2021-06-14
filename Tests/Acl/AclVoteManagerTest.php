@@ -27,7 +27,7 @@ class AclVoteManagerTest extends TestCase
     protected $vote;
     protected $comment;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->realManager = $this->getMockBuilder('FOS\CommentBundle\Model\VoteManagerInterface')->getMock();
         $this->voteSecurity = $this->getMockBuilder('FOS\CommentBundle\Acl\VoteAclInterface')->getMock();

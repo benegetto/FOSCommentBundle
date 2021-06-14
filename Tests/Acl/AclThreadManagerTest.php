@@ -25,7 +25,7 @@ class AclThreadManagerTest extends TestCase
     protected $threadSecurity;
     protected $thread;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->realManager = $this->getMockBuilder('FOS\CommentBundle\Model\ThreadManagerInterface')->getMock();
         $this->threadSecurity = $this->getMockBuilder('FOS\CommentBundle\Acl\ThreadAclInterface')->getMock();

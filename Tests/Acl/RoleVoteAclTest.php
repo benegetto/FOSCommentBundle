@@ -20,7 +20,7 @@ use FOS\CommentBundle\Acl\RoleVoteAcl;
  */
 class RoleVoteAclTest extends AbstractRoleAcl
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

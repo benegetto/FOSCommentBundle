@@ -20,7 +20,7 @@ class CommentBlamerListenerTest extends TestCase
     protected $authorizationChecker;
     protected $tokenStorage;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
         $this->authorizationChecker = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')->getMock();

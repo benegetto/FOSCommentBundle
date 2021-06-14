@@ -29,7 +29,7 @@ abstract class AbstractRoleAcl extends TestCase
     protected $editRole = 'ROLE_EDIT';
     protected $deleteRole = 'ROLE_DELETE';
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')->getMock();
     }

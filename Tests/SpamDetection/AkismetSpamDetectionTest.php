@@ -24,7 +24,7 @@ class AkismetSpamDetectionTest extends TestCase
     protected $akismet;
     protected $detector;
 
-    public function setUp()
+    protected function setUp(): void
     {
         if (!interface_exists('Ornicar\AkismetBundle\Akismet\AkismetInterface')) {
             $this->markTestSkipped('Ornicar\AkismetBundle is not installed');
