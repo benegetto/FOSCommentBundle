@@ -46,12 +46,8 @@ class FOSRestViewHandlerAdapter implements ViewHandlerInterface
         if ('html' === ($view->getFormat() ?: $request->getRequestFormat()) && is_array($data)) {
             $template = $data['template'];
             $templateVar = $data['templateVar'] ?? 'data';
-            $templateData = $data['templateData'] ?? [];
-            $data = $data['data'];
-            if ($data instanceof FormInterface) {
-                $data = $data->createView();
-            }
-            $templateData[$templateVar] = $data;
+            $templateData = $data[$templateVar];
+
             $response = $this->twig->render($template, $templateData);
 
             return new Response($response);
