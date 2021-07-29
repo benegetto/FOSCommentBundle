@@ -861,6 +861,8 @@ class ThreadController extends AbstractController
      * @param mixed $commentId Id of the comment
      *
      * @return CommentInterface|null The comment
+     *
+     * @throws NotFoundHttpException
      */
     private function getValidCommentParent(ThreadInterface $thread, $commentId): ?CommentInterface
     {
@@ -876,6 +878,8 @@ class ThreadController extends AbstractController
 
             return $comment;
         }
+
+        return null;
     }
 
     /**
