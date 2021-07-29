@@ -14,6 +14,7 @@ namespace FOS\CommentBundle\Controller;
 use FOS\CommentBundle\Model\CommentInterface;
 use FOS\CommentBundle\Model\ThreadInterface;
 use FOS\RestBundle\View\View;
+use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -878,9 +879,9 @@ class ThreadController extends AbstractController
     }
 
     /**
-     * @return \FOS\RestBundle\View\ViewHandler
+     * @return ViewHandlerInterface
      */
-    private function getViewHandler(): \FOS\RestBundle\View\ViewHandler
+    private function getViewHandler(): ViewHandlerInterface
     {
         return $this->container->get('fos_rest.view_handler');
     }
