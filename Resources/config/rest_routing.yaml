@@ -8,7 +8,8 @@
 #
 handcraftedinthealps_rest_routing:
     routing_loader:
-        default_format: json
+        default_format: html
         formats:
-            json: true
+            html: true
+            json: false
             xml: false

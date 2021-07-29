@@ -1,0 +1,3 @@
+services:
+    FOS\CommentBundle\ViewHandler\FOSRestViewHandlerAdapter:
+        decorates: 'fos_rest.view_handler'
