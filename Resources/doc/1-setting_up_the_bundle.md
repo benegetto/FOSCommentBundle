@@ -22,9 +22,26 @@ public function registerBundles()
         // ...
         new FOS\RestBundle\FOSRestBundle(),
         new FOS\CommentBundle\FOSCommentBundle(),
-        new JMS\SerializerBundle\JMSSerializerBundle($this),
+        new HandcraftedInTheAlps\RestRoutingBundle\RestRoutingBundle::class => ['all' => true],
+        // new JMS\SerializerBundle\JMSSerializerBundle($this),
     );
 }
+```
+
+Add routing 
+```
+fos_comment_api:
+    type: rest
+    resource: "@FOSCommentBundle/Resources/config/routing.yml"
+    prefix: /api
+    defaults: { _format: html }
+```
+
+Add fos_rest view handler decorator to handle templating (dropped in fos rest bundle v3.0). In services.yaml:
+```
+services:
+    FOS\CommentBundle\ViewHandler\FOSRestViewHandlerAdapter:
+        decorates: 'fos_rest.view_handler'
 ```
 
 ### C) Enable HTTP Method Override
