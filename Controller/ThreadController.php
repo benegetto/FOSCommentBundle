@@ -149,7 +149,7 @@ class ThreadController extends AbstractController
 
         $view = View::create()
             ->setData([
-                'data' => ['form' => $form, 'id' => $id, 'isCommentable' => $thread->isCommentable()],
+                'data' => ['form' => $form->createView(), 'id' => $id, 'isCommentable' => $thread->isCommentable()],
                 'template' => '@FOSComment/Thread/commentable.html.twig',
                 'templateVar' => 'data'
             ]);
@@ -283,7 +283,7 @@ class ThreadController extends AbstractController
 
         $view = View::create()
             ->setData([
-                'data' => ['form' => $form, 'id' => $id, 'commentId' => $commentId],
+                'data' => ['form' => $form->createView(), 'id' => $id, 'commentId' => $commentId],
                 'template' => '@FOSComment/Thread/comment_remove.html.twig',
                 'templateVar' => 'data'
             ]);
@@ -510,7 +510,7 @@ class ThreadController extends AbstractController
 
         if ($form->isValid()) {
             if (false !== $commentManager->saveComment($comment)) {
-                return $this->getViewHandler()->handle($this->onCreateCommentSuccess($form, $id, $parent));
+                return $this->onCreateCommentSuccess($form, $id, $parent);
             }
         }
 
@@ -623,11 +623,11 @@ class ThreadController extends AbstractController
      * @param string $id Id of the thread
      * @param CommentInterface|null $parent Optional comment parent
      *
-     * @return View
+     * @return Response
      */
-    protected function onCreateCommentSuccess(FormInterface $form, $id, CommentInterface $parent = null): View
+    protected function onCreateCommentSuccess(FormInterface $form, $id, CommentInterface $parent = null): Response
     {
-        return View::createRouteRedirect('fos_comment_get_thread_comment', ['id' => $id, 'commentId' => $form->getData()->getId()], Response::HTTP_CREATED);
+        return $this->getThreadCommentAction($id, $form->getData()->getId());
     }
 
     /**
@@ -645,7 +645,7 @@ class ThreadController extends AbstractController
             ->setStatusCode(Response::HTTP_BAD_REQUEST)
             ->setData([
                 'data' => [
-                    'form' => $form,
+                    'form' => $form->createView(),
                     'id' => $id,
                     'parent' => $parent,
                 ],
@@ -680,7 +680,7 @@ class ThreadController extends AbstractController
         $view = View::create()
             ->setStatusCode(Response::HTTP_BAD_REQUEST)
             ->setData([
-                'data' => ['form' => $form],
+                'data' => ['form' => $form->createView()],
                 'template' => '@FOSComment/Thread/new.html.twig',
                 'templateVar' => 'data'
             ]);
@@ -733,7 +733,7 @@ class ThreadController extends AbstractController
                 'data' => [
                     'id' => $id,
                     'commentId' => $commentId,
-                    'form' => $form,
+                    'form' => $form->createView(),
                 ],
                 'template' => '@FOSComment/Thread/vote_new.html.twig',
                 'templateVar' => 'data'
@@ -769,7 +769,7 @@ class ThreadController extends AbstractController
             ->setStatusCode(Response::HTTP_BAD_REQUEST)
             ->setData([
                 'data' => [
-                    'form' => $form,
+                    'form' => $form->createView(),
                     'comment' => $form->getData(),
                 ],
                 'template' => '@FOSComment/Thread/comment_edit.html.twig',
@@ -804,7 +804,7 @@ class ThreadController extends AbstractController
             ->setStatusCode(Response::HTTP_BAD_REQUEST)
             ->setData([
                 'data' => [
-                    'form' => $form,
+                    'form' => $form->createView(),
                     'id' => $form->getData()->getId(),
                     'isCommentable' => $form->getData()->isCommentable(),
                 ],
@@ -842,7 +842,7 @@ class ThreadController extends AbstractController
             ->setStatusCode(Response::HTTP_BAD_REQUEST)
             ->setData([
                 'data' => [
-                    'form' => $form,
+                    'form' => $form->createView(),
                     'id' => $id,
                     'commentId' => $form->getData()->getId(),
                     'value' => $form->getData()->getState(),
