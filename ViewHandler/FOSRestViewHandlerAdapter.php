@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 class FOSRestViewHandlerAdapter implements ViewHandlerInterface
@@ -18,11 +19,16 @@ class FOSRestViewHandlerAdapter implements ViewHandlerInterface
 
     private RequestStack $requestStack;
 
-    public function __construct(ViewHandlerInterface $decorated, Environment $twig, RequestStack $requestStack)
+    private UrlGeneratorInterface $urlGenerator;
+
+
+    public function __construct(ViewHandlerInterface $decorated, Environment $twig, RequestStack $requestStack, UrlGeneratorInterface $urlGenerator)
     {
         $this->decorated = $decorated;
         $this->twig = $twig;
         $this->requestStack = $requestStack;
+        $this->urlGenerator = $urlGenerator;
+
     }
 
     public function supports($format): bool
@@ -43,14 +49,21 @@ class FOSRestViewHandlerAdapter implements ViewHandlerInterface
             $request = $this->requestStack->getCurrentRequest();
         }
 
-        if ('html' === ($view->getFormat() ?: $request->getRequestFormat()) && is_array($data)) {
-            $template = $data['template'];
-            $templateVar = $data['templateVar'] ?? 'data';
-            $templateData = $data[$templateVar];
+        if ('html' === ($view->getFormat() ?: $request->getRequestFormat())) {
+            if (is_array($data) && isset($data['template'])) {
+                $template = $data['template'];
+                $templateVar = $data['templateVar'] ?? 'data';
+                $templateData = $data[$templateVar] ?? [];
 
-            $response = $this->twig->render($template, $templateData);
-
-            return new Response($response);
+                $response = $this->twig->render($template, $templateData);
+                return new Response($response);
+            } else {
+                $route = $view->getRoute();
+                $location = $route
+                    ? $this->urlGenerator->generate($route, (array)$view->getRouteParameters(), UrlGeneratorInterface::ABSOLUTE_URL)
+                    : $view->getLocation();
+                return $this->createRedirectResponse($view, $location, 'html');
+            }
         }
 
         if (is_array($data)) {

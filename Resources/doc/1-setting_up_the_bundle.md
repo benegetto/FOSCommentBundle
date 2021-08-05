@@ -44,6 +44,17 @@ services:
         decorates: 'fos_rest.view_handler'
 ```
 
+Rest routing config:
+```
+handcraftedinthealps_rest_routing:
+    routing_loader:
+        default_format: html
+        formats:
+            html: true
+            json: true
+            xml: false
+```
+
 ### C) Enable HTTP Method Override
 
 [Enable HTTP Method override as described here](https://symfony.com/doc/current/reference/configuration/framework.html#http-method-override)
