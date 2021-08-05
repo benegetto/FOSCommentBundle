@@ -316,7 +316,7 @@ class ThreadController extends AbstractController
 
         if ($form->isValid()) {
             if (false !== $manager->saveComment($comment)) {
-                return $this->getViewHandler()->handle($this->onRemoveThreadCommentSuccess($form, $id));
+                return $this->onRemoveThreadCommentSuccess($form, $id);
             }
         }
 
@@ -610,7 +610,7 @@ class ThreadController extends AbstractController
         if ($form->isValid()) {
             $voteManager->saveVote($vote);
 
-            return $this->getViewHandler()->handle($this->onCreateVoteSuccess($form, $id, $commentId));
+            return $this->onCreateVoteSuccess($form, $id, $commentId);
         }
 
         return $this->getViewHandler()->handle($this->onCreateVoteError($form, $id, $commentId));
@@ -707,13 +707,13 @@ class ThreadController extends AbstractController
      * @param string $id Id of the thread
      * @param mixed $commentId Id of the comment
      *
-     * @return View
+     * @return Response
      *
      * @todo Think about what to show. For now the new score of the comment
      */
-    protected function onCreateVoteSuccess(FormInterface $form, $id, $commentId): View
+    protected function onCreateVoteSuccess(FormInterface $form, $id, $commentId): Response
     {
-        return View::createRouteRedirect('fos_comment_get_thread_comment_votes', ['id' => $id, 'commentId' => $commentId], Response::HTTP_CREATED);
+        return $this->getThreadCommentVotesAction($id, $commentId);
     }
 
     /**
@@ -821,11 +821,11 @@ class ThreadController extends AbstractController
      * @param FormInterface $form Comment delete form
      * @param int $id Thread id
      *
-     * @return View
+     * @return Response
      */
-    protected function onRemoveThreadCommentSuccess(FormInterface $form, $id): View
+    protected function onRemoveThreadCommentSuccess(FormInterface $form, $id): Response
     {
-        return View::createRouteRedirect('fos_comment_get_thread_comment', ['id' => $id, 'commentId' => $form->getData()->getId()], Response::HTTP_CREATED);
+        return $this->getThreadCommentAction($id, $form->getData()->getId());
     }
 
     /**
